@@ -2,11 +2,6 @@
     let message = '';
     let messages = '';
 
-    function updateMessage(event) {
-        console.log(event.target.value);
-        message = event.target.value;
-    }
-
     function saveMessage() {
         const newMessage = {
             id: Date.now(),
@@ -19,6 +14,9 @@
 </script>
 <style>
     * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
         font-family: 'Rubik', sans-serif;
     }
     main {
@@ -31,11 +29,19 @@
     h1 {
         color: #1e9cea;
     }
+    .chat-message {
+        background-color: #1e9cea;
+        padding: 0.5rem;
+        border-radius: 12px;
+        border-bottom-left-radius: 0px;
+        color: #fff;
+        margin: 0.5rem;
+    }
 </style>
 <main>
     <h1>Switter</h1>
     <p>Voici ma première app avec Svelte</p>
-    <textarea name="" id="" cols="60" rows="5" on:input={updateMessage}></textarea>
+    <textarea name="" id="" cols="60" rows="5" bind:value={message}></textarea>
     <button on:click={saveMessage}>Envoyer</button>
     <div>
         <h3>Preview</h3>
@@ -43,6 +49,11 @@
     </div>
     <div>
         <h2>Messages</h2>
-        {messages}
+        {#each messages as message}
+            <div class="chat-message">
+                <p>By {message.author}</p>
+                <p>{message.text}</p>
+            </div>
+        {/each}
     </div>
 </main>
