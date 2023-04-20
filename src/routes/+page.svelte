@@ -1,15 +1,10 @@
 <script>
-    let message = '';
-    let messages = '';
+    import Message from "./Message.svelte";
+    let messages = "";
 
-    function saveMessage() {
-        const newMessage = {
-            id: Date.now(),
-            text: message,
-            author: "Killian",
-        };
-        messages = [newMessage, ...messages];
-        console.log('message :', messages);
+    function addMessage(event) {
+        console.log(event.detail);
+        messages = [event.detail, ...messages];
     }
 </script>
 <style>
@@ -41,12 +36,7 @@
 <main>
     <h1>Switter</h1>
     <p>Voici ma première app avec Svelte</p>
-    <textarea name="" id="" cols="60" rows="5" bind:value={message}></textarea>
-    <button on:click={saveMessage}>Envoyer</button>
-    <div>
-        <h3>Preview</h3>
-        {message}
-    </div>
+    <Message author="Bob" on:message={addMessage}/>
     <div>
         <h2>Messages</h2>
         {#each messages as message}
