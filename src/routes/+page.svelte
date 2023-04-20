@@ -1,6 +1,7 @@
 <script>
     import Message from "./Message.svelte";
     let messages = "";
+    let isVisible = true;
 
     function addMessage(event) {
         console.log(event.detail);
@@ -14,6 +15,10 @@
     };
 
     const formatter = new Intl.DateTimeFormat("fr-FR", options);
+
+    function toggle () {
+        isVisible = !isVisible;
+    }
 </script>
 <style>
     * {
@@ -47,11 +52,23 @@
     .chat-message p:first-child {
         font-weight: bold;
     }
+    .show {
+        all: unset;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        border: solid 2px #1e9cea;
+        color: #1e9cea;
+        cursor: pointer;
+    }
 </style>
 <main>
     <h1>Switter</h1>
     <p>Voici ma première app avec Svelte</p>
-    <Message on:message={addMessage}/>
+    <button class="show" on:click={toggle}>{isVisible ? "Masquer le formulaire" : "Afficher le formulaire"}</button>
+    {#if isVisible}
+        <Message on:message={addMessage}/>
+    {/if}
+    
     <div>
         <h2>Messages</h2>
         {#each messages as message}
