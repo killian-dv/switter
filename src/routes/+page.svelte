@@ -6,6 +6,14 @@
         console.log(event.detail);
         messages = [event.detail, ...messages];
     }
+
+    const options = {
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+    };
+
+    const formatter = new Intl.DateTimeFormat("fr-FR", options);
 </script>
 <style>
     * {
@@ -19,10 +27,14 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        gap: 1rem;
         height: 100vh;
     }
     h1 {
         color: #1e9cea;
+    }
+    h1, h2, h3 {
+        text-align: center;
     }
     .chat-message {
         background-color: #1e9cea;
@@ -32,16 +44,19 @@
         color: #fff;
         margin: 0.5rem;
     }
+    .chat-message p:first-child {
+        font-weight: bold;
+    }
 </style>
 <main>
     <h1>Switter</h1>
     <p>Voici ma première app avec Svelte</p>
-    <Message author="Bob" on:message={addMessage}/>
+    <Message on:message={addMessage}/>
     <div>
         <h2>Messages</h2>
         {#each messages as message}
             <div class="chat-message">
-                <p>By {message.author}</p>
+                <p>De {message.author} à {formatter.format(message.date)}</p>
                 <p>{message.text}</p>
             </div>
         {/each}
